@@ -1,1 +1,37 @@
-<p>get-allsquares works!</p>
+<div class="card p-8">
+  <div class="flex justify-end mb-4">
+    <button
+      pButton
+      type="button"
+      class="p-button p-component bg-primary text-white"
+      icon="pi pi-plus"
+      label="Nueva Plaza"
+      [routerLink]="['/squares/create']"
+    >
+    </button>
+  </div>
+
+  <!-- Contenedor con scroll -->
+  <div class="overflow-y-auto max-h-[400px]">
+    <p-table [value]="squares" stripedRows [tableStyle]="{'min-width': '50rem'}">
+      <ng-template #header>
+        <tr>
+          <th>Id</th>
+          <th>Número de la plaza</th>
+          <th>Tipo</th>
+          <th>Estado</th>
+          <th>Parqueadero (ID)</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-square>
+        <tr>
+          <td>{{ square.id }}</td>
+          <td>{{ square.number }}</td>
+          <td>{{ square.type }}</td>
+          <td>{{ square.status }}</td>
+          <td>{{ square.parkingId }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

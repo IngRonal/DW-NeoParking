@@ -1,1 +1,98 @@
-<p>createsquares works!</p>
+<div class="mx-auto w-full max-w-[880px] rounded-xl bg-white p-4 sm:p-6 shadow-sm mt-6">
+  <h2 class="mb-4 text-lg font-semibold text-slate-800">Agregar Plaza</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-12 gap-3">
+    
+    <!-- NÚMERO -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="number" class="block mb-1 text-sm font-medium text-slate-700">Número</label>
+      <input
+        id="number"
+        type="number"
+        pInputText
+        formControlName="number"
+        placeholder="Ej. 1"
+        class="w-full text-sm px-3 py-2"
+      />
+      <small
+        class="block mt-1 text-xs text-red-600"
+        *ngIf="f['number'].touched && f['number'].errors?.['required']">
+        El número de plaza es obligatorio.
+      </small>
+    </div>
+
+    <!-- TIPO -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="type" class="block mb-1 text-sm font-medium text-slate-700">Tipo</label>
+      <select
+        id="type"
+        formControlName="type"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2"
+      >
+        <option value="Carro">Carro</option>
+        <option value="Moto">Moto</option>
+        <option value="Bici">Bici</option>
+      </select>
+      <small
+        class="block mt-1 text-xs text-red-600"
+        *ngIf="f['type'].touched && f['type'].errors?.['required']">
+        El tipo es obligatorio.
+      </small>
+    </div>
+
+    <!-- ESTADO -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="status" class="block mb-1 text-sm font-medium text-slate-700">Estado</label>
+      <select
+        id="status"
+        formControlName="status"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2"
+      >
+        <option value="Libre">Libre</option>
+        <option value="Ocupada">Ocupada</option>
+        <option value="Reservada">Reservada</option>
+        <option value="Fuera de servicio">Fuera de servicio</option>
+      </select>
+      <small
+        class="block mt-1 text-xs text-red-600"
+        *ngIf="f['status'].touched && f['status'].errors?.['required']">
+        El estado es obligatorio.
+      </small>
+    </div>
+
+    <!-- PARQUEADERO (FK) -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Parqueadero</label>
+      <select formControlName="parkingId"
+              class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2">
+        <option value="" disabled>Seleccione un parqueadero</option>
+        <option *ngFor="let p of parkings" [value]="p.id">{{ p.name }}</option>
+      </select>
+      <small class="block mt-1 text-xs text-red-600"
+             *ngIf="f['parkingId'].touched && f['parkingId'].errors?.['required']">
+        El parqueadero es obligatorio.
+      </small>
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="col-span-12">
+      <div class="mt-3 flex items-center justify-end gap-2">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [size]="'small'"
+          (click)="cancelar()"
+          type="button"
+        ></p-button>
+        <p-button
+          label="Guardar"
+          icon="pi pi-check"
+          [size]="'small'"
+          type="submit"
+          [disabled]="form.invalid"
+        ></p-button>
+      </div>
+    </div>
+
+  </form>
+</div>

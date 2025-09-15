@@ -1,1 +1,125 @@
-<p>get-allticket-issuance works!</p>
+<div class="card p-3">
+ <div class="flex justify-end gap-2 mb-2">
+    <button pButton type="button" class="p-button" label="Suscripción" (click)="showTable='subscription'"></button>
+    <button pButton type="button" class="p-button" label="Particular" (click)="showTable='particular'"></button>
+    <button
+      pButton
+      type="button"
+      class="p-button bg-primary text-white"
+      icon="pi pi-plus"
+      label="Nuevo Ticket"
+      [routerLink]="['/ticket-issuance/create']"
+    ></button>
+  </div>
+
+  <!-- Tabla: Clientes con suscripción -->
+ <!-- Tabla: Clientes con suscripción -->
+  <div *ngIf="showTable === 'subscription'" class="overflow-y-auto max-h-[300px] mb-2">
+    <h3 class="mb-1 font-semibold text-base">Tickets de Clientes con Suscripción</h3>
+    <p-table
+      [value]="ticketsWithSubscription"
+      stripedRows
+      scrollable="true"
+      scrollHeight="250px"
+      [tableStyle]="{'min-width': '70rem', 'overflow-wrap': 'break-word'}"
+    >
+      <ng-template #header>
+        <tr>
+          <th>Id</th>
+          <th>Cliente</th>
+          <th>Vehículo</th>
+          <th>Tipo Vehículo</th>
+          <th>Parqueadero</th>
+          <th>Plaza</th>
+          <th>Tipo Suscripción</th>
+          <th>Hora de entrada</th>
+          <th>Tarifa</th>
+          <th>Fecha emisión</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-ticket>
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.clientName }}</td>
+          <td>{{ ticket.vehiclePlate || '-' }}</td>
+          <td>{{ ticket.vehicleType || '-' }}</td>
+          <td>{{ ticket.parkingName || '-' }}</td>
+          <td>{{ ticket.plazaNumber || '-' }}</td>
+          <td>{{ ticket.subscriptionType || '-' }}</td>
+          <td>{{ ticket.timeIn || '-' }}</td>
+          <td>{{ ticket.rate | currency }}</td>
+          <td>{{ ticket.date | date:'dd/MM/yyyy' }}</td>
+          <td>{{ ticket.status }}</td>
+          <td>
+            <button
+              pButton
+              type="button"
+              label="Imprimir"
+              icon="pi pi-print"
+              class="p-button-sm"
+              (click)="printTicket(ticket)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- Tabla: Clientes particulares -->
+   <div *ngIf="showTable === 'particular'" class="overflow-y-auto max-h-[300px]">
+    <h3 class="mb-1 font-semibold text-base">Tickets de Clientes Particulares</h3>
+    <p-table
+      [value]="ticketsParticulars"
+      stripedRows
+      scrollable="true"
+      scrollHeight="250px"
+      [tableStyle]="{'min-width': '70rem', 'overflow-wrap': 'break-word'}"
+    >
+      <ng-template #header>
+        <tr>
+          <th>Id</th>
+          <th>Cliente</th>
+          <th>Documento</th>
+          <th>Vehículo</th>
+          <th>Tipo Vehículo</th>
+          <th>Parqueadero</th>
+          <th>Plaza</th>
+          <th>Tipo Suscripción</th>
+          <th>Hora de entrada</th>
+          <th>Tarifa</th>
+          <th>Fecha emisión</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-ticket>
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.clientName }}</td>
+          <td>{{ ticket.clientDocument ? ticket.clientDocument : '-' }}</td>
+          <td>{{ ticket.vehiclePlate ? ticket.vehiclePlate : '-' }}</td>
+          <td>{{ ticket.vehicleType ? ticket.vehicleType : '-' }}</td>
+          <td>{{ ticket.parkingName ? ticket.parkingName : '-' }}</td>
+          <td>{{ ticket.plazaNumber ? ticket.plazaNumber : '-' }}</td>
+          <td>{{ ticket.subscriptionType ? ticket.subscriptionType : '-' }}</td>
+          <td>{{ ticket.timeIn ? ticket.timeIn : '-' }}</td>
+          <td>{{ ticket.rate | currency }}</td>
+          <td>{{ ticket.date | date:'dd/MM/yyyy' }}</td>
+          <td>{{ ticket.status }}</td>
+          <td>
+            <button
+              pButton
+              type="button"
+              label="Imprimir"
+              icon="pi pi-print"
+              class="p-button-sm"
+              (click)="printTicket(ticket)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,1 +1,194 @@
-<p>createsubticket-issuance works!</p>
+<div class="mx-auto w-full max-w-[600px] rounded-xl bg-white p-4 shadow-sm mt-4">
+
+  <!-- SELECCIÓN DE TIPO DE CLIENTE -->
+  <div class="mb-4">
+    <label class="block mb-1 text-sm font-medium text-slate-700">Tipo de Ticket</label>
+    <div class="flex gap-3">
+      <label class="flex items-center gap-2 text-sm">
+        <input type="radio" name="ticketType" [(ngModel)]="ticketType" value="subscription" />
+        Cliente con Suscripción
+      </label>
+      <label class="flex items-center gap-2 text-sm">
+        <input type="radio" name="ticketType" [(ngModel)]="ticketType" value="particular" />
+        Cliente Particular
+      </label>
+    </div>
+  </div>
+
+  <!-- FORMULARIO CLIENTES CON SUSCRIPCIÓN -->
+  <div *ngIf="ticketType === 'subscription'">
+    <h2 class="mb-3 text-md font-semibold text-slate-800">Ticket - Cliente con Suscripción</h2>
+
+    <form [formGroup]="subscriptionForm" (ngSubmit)="submitSubscriptionTicket()" class="grid grid-cols-12 gap-2">
+
+      <!-- CLIENTE -->
+      <div class="col-span-12 md:col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Cliente</label>
+        <select formControlName="clientId" class="w-full p-2 text-sm rounded border border-gray-300"
+          (change)="onClientChange($event)">
+          <option value="" disabled>Seleccione un cliente</option>
+          <option *ngFor="let c of clients" [value]="c.id">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <!-- VEHÍCULO -->
+      <div class="col-span-12 md:col-span-6" *ngIf="filteredVehicles.length">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Vehículo</label>
+        <select formControlName="vehicleId" class="w-full p-2 text-sm rounded border border-gray-300"
+          (change)="onVehicleChange($event)">
+          <option value="" disabled>Seleccione un vehículo</option>
+          <option *ngFor="let v of filteredVehicles" [value]="v.id">
+            {{ v.plate }} - Dueño: {{ getClientName(v.client_id) }}
+          </option>
+        </select>
+      </div>
+
+      <!-- TIPO DE SUSCRIPCIÓN -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="subscriptionType" class="block mb-1 text-xs font-medium text-slate-700">Tipo de Suscripción</label>
+        <select id="subscriptionType" formControlName="subscriptionType"
+          class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="Mensual">Mensual</option>
+          <option value="Trimestral">Trimestral</option>
+          <option value="Anual">Anual</option>
+          <option value="Hora">Hora</option>
+        </select>
+      </div>
+
+      <!-- FECHA -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="date" class="block mb-1 text-xs font-medium text-slate-700">Fecha</label>
+        <input id="date" type="date" pInputText formControlName="date" class="w-full text-sm p-2 rounded" />
+      </div>
+
+      <!-- PLAZA -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="plazaName" class="block mb-1 text-xs font-medium text-slate-700">Plaza</label>
+        <select id="plazaName" formControlName="plazaName" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="" disabled>Seleccione una plaza</option>
+          <option *ngFor="let p of plazas" [value]="p.name">{{ p.name }}</option>
+        </select>
+      </div>
+
+      <!-- PARKING -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="parkingName" class="block mb-1 text-xs font-medium text-slate-700">Parking</label>
+        <select id="parkingName" formControlName="parkingName" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="" disabled>Seleccione un parking</option>
+          <option *ngFor="let p of parkings" [value]="p.name">{{ p.name }}</option>
+        </select>
+      </div>
+
+      <!-- TARIFA -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="rate" class="block mb-1 text-xs font-medium text-slate-700">Tarifa</label>
+        <select id="rate" formControlName="rate" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="" disabled>Seleccione tarifa</option>
+          <option *ngFor="let r of rates" [value]="r.pricePerHour">
+            {{ r.timeRange }} - ${{ r.pricePerHour }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ESTADO -->
+      <div class="col-span-12 md:col-span-6">
+        <label for="status" class="block mb-1 text-xs font-medium text-slate-700">Estado</label>
+        <select id="status" formControlName="status" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="Pendiente">Pendiente</option>
+          <option value="Pagado">Pagado</option>
+        </select>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="col-span-12 mt-2 flex items-center justify-end gap-2">
+        <p-button label="Cancelar" severity="secondary" [size]="'small'" (click)="cancelar()" [type]="'button'"></p-button>
+        <p-button label="Guardar" icon="pi pi-check" [size]="'small'" [type]="'submit'" [disabled]="subscriptionForm.invalid"></p-button>
+      </div>
+    </form>
+  </div>
+
+  <hr class="my-4 border-gray-200">
+
+  <!-- FORMULARIO CLIENTES PARTICULARES -->
+  <div *ngIf="ticketType === 'particular'" class="mx-auto w-full max-w-[600px] rounded-xl bg-white p-2 shadow-sm mt-2">
+
+    <h2 class="mb-2 text-sm font-semibold text-slate-600">Ticket - Cliente Particular</h2>
+
+    <form [formGroup]="particularForm" (ngSubmit)="submitParticularTicket()" class="grid grid-cols-12 gap-2">
+
+      <!-- NOMBRE Y DOCUMENTO -->
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Nombre</label>
+        <input type="text" pInputText formControlName="clientName" class="w-full text-sm p-2 rounded" />
+      </div>
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Documento</label>
+        <input type="text" pInputText formControlName="clientDocument" class="w-full text-sm p-2 rounded" />
+      </div>
+
+      <!-- PLACA Y TIPO VEHÍCULO -->
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Placa</label>
+        <input type="text" pInputText formControlName="vehiclePlate" class="w-full text-sm p-2 rounded" />
+      </div>
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Tipo de Vehículo</label>
+        <select formControlName="vehicleType" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="Carro">Carro</option>
+          <option value="Moto">Moto</option>
+          <option value="Bici">Bici</option>
+        </select>
+      </div>
+
+      <!-- FECHA Y HORA -->
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Fecha</label>
+        <input type="date" pInputText formControlName="date" class="w-full text-sm p-2 rounded" />
+      </div>
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Hora Entrada</label>
+        <input type="time" pInputText formControlName="timeIn" class="w-full text-sm p-2 rounded" />
+      </div>
+
+      <!-- PLAZA Y PARKING -->
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Plaza</label>
+        <select formControlName="plazaName" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="" disabled>Seleccione plaza</option>
+          <option *ngFor="let p of plazas" [value]="p.name">{{ p.name }}</option>
+        </select>
+      </div>
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Parking</label>
+        <select formControlName="parkingName" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="" disabled>Seleccione parking</option>
+          <option *ngFor="let p of parkings" [value]="p.name">{{ p.name }}</option>
+        </select>
+      </div>
+
+      <!-- TARIFA Y ESTADO -->
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Tarifa</label>
+        <select formControlName="rate" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="" disabled>Seleccione tarifa</option>
+          <option *ngFor="let r of rates" [value]="r.pricePerHour">
+            {{ r.timeRange }} - ${{ r.pricePerHour }}
+          </option>
+        </select>
+      </div>
+      <div class="col-span-6">
+        <label class="block mb-1 text-xs font-medium text-slate-700">Estado</label>
+        <select formControlName="status" class="w-full p-2 text-sm rounded border border-gray-300">
+          <option value="Pendiente">Pendiente</option>
+          <option value="Pagado">Pagado</option>
+        </select>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="col-span-12 mt-2 flex justify-end gap-2">
+        <p-button label="Cancelar" severity="secondary" [size]="'small'" (click)="cancelar()" [type]="'button'"></p-button>
+        <p-button label="Guardar" icon="pi pi-check" [size]="'small'" [type]="'submit'" [disabled]="particularForm.invalid"></p-button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -97,17 +97,17 @@ export class Aside implements OnInit {
               {
                 label: 'Nuevo cliente',
                 icon: 'pi pi-plus',
-                routerLink: '/client/create'
+                routerLink: '/clients/create'
               },
               {
                 label: 'Ver clientes',
                 icon: 'pi pi-eye',
-                routerLink: '/client'
+                routerLink: '/clients'
               },
               {
                 label: 'Modificar cliente',
                 icon: 'pi pi-pencil',
-                routerLink: '/client/update/:id'
+                routerLink: '/clients/update/:id'
               }
             ]
           },
@@ -160,17 +160,17 @@ export class Aside implements OnInit {
               {
                 label: 'Nuevo abono',
                 icon: 'pi pi-plus',
-                routerLink: '/payments/create'
+                routerLink: '/deposits/create'
               },
               {
                 label: 'Ver abonos',
                 icon: 'pi pi-eye',
-                routerLink: '/payments'
+                routerLink: '/deposits'
               },
               {
                 label: 'Modificar abono',
                 icon: 'pi pi-pencil',
-                routerLink: '/payments/update/:id'
+                routerLink: '/deposits/update/:id'
               }
             ]
           }
@@ -226,11 +226,7 @@ export class Aside implements OnInit {
             label: 'Accesos',
             icon: 'pi pi-sign-in',
             items: [
-              {
-                label: 'Nuevo acceso',
-                icon: 'pi pi-plus',
-                routerLink: '/access/create'
-              },
+              
               {
                 label: 'Ver accesos',
                 icon: 'pi pi-eye',

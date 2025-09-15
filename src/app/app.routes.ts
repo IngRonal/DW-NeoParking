@@ -35,7 +35,6 @@ import { CreateticketLiquidation } from './components/ticket_liquidation/createt
 import { GetAllticketLiquidation } from './components/ticket_liquidation/get-allticket-liquidation/get-allticket-liquidation';
 import { UpdateticketLiquidation } from './components/ticket_liquidation/updateticket-liquidation/updateticket-liquidation';
 
-import { Createaccess } from './components/access/createaccess/createaccess';
 import { GetAllaccess } from './components/access/get-allaccess/get-allaccess';
 import { Updateaccess } from './components/access/updateaccess/updateaccess';
 
@@ -104,15 +103,15 @@ export const routes: Routes = [
 
     // Ruta de Usuarios
     {
-        path: "client",
+        path: "clients",
         component: GetAllClient
     },
     {
-        path: "client/create",
+        path: "clients/create",
         component: CreateClient
     },
     {
-        path: "client/update/:id",
+        path: "clients/update/:id",
         component: UpdateClient
     },
 
@@ -146,15 +145,15 @@ export const routes: Routes = [
 
     // Ruta de Abonos
     {
-        path: "deposit",
+        path: "deposits",
         component: GetAlldeposit
     },
     {
-        path: "deposit/create",
+        path: "deposits/create",
         component: Createdeposit
     },
     {
-        path: "deposit/update/:id",
+        path: "deposits/update/:id",
         component: Updatedeposit
     },
 
@@ -191,10 +190,7 @@ export const routes: Routes = [
         path: "access",
         component: GetAllaccess
     },
-    {
-        path: "access/create",
-        component: Createaccess
-    },
+    
     {
         path: "access/update/:id",
         component: Updateaccess

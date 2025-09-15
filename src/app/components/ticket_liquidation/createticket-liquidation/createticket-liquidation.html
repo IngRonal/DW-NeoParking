@@ -1,1 +1,78 @@
-<p>createticket-liquidation works!</p>
+<div class="mx-auto w-full max-w-[880px] rounded-xl bg-white p-4 sm:p-6 shadow-sm mt-6">
+  <h2 class="mb-4 text-lg font-semibold text-slate-800">Liquidar Ticket</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-12 gap-3">
+
+    <!-- Seleccionar ticket pendiente -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="ticketId" class="block mb-1 text-sm font-medium text-slate-700">Ticket Pendiente</label>
+      <select id="ticketId" formControlName="ticketId"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2"
+        (change)="onTicketChange($event)">
+        <option value="" disabled>Seleccione un ticket</option>
+        <option *ngFor="let t of pendingTickets" [value]="t.id">
+          Ticket #{{ t.id }} - {{ t.clientName }} ({{ t.vehiclePlate }})
+        </option>
+      </select>
+    </div>
+
+    <!-- Cliente -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Cliente</label>
+      <input type="text" formControlName="clientName" pInputText
+        class="w-full text-sm px-3 py-2 bg-gray-100 cursor-not-allowed" />
+    </div>
+
+    <!-- Placa -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Vehículo</label>
+      <input type="text" formControlName="vehiclePlate" pInputText
+        class="w-full text-sm px-3 py-2 bg-gray-100 cursor-not-allowed" />
+    </div>
+
+    <!-- Hora de entrada -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Hora de Entrada</label>
+      <input type="text" formControlName="timeIn" pInputText
+        class="w-full text-sm px-3 py-2 bg-gray-100 cursor-not-allowed" />
+    </div>
+
+    <!-- Hora de salida -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Hora de Salida</label>
+      <input type="text" formControlName="timeOut" pInputText
+        class="w-full text-sm px-3 py-2 bg-gray-100 cursor-not-allowed" />
+    </div>
+
+    <!-- Horas calculadas -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Horas</label>
+      <input type="text" formControlName="hours" pInputText
+        class="w-full text-sm px-3 py-2 bg-gray-100 cursor-not-allowed" />
+    </div>
+
+    <!-- Tarifa -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Tarifa</label>
+      <input type="text" formControlName="rate" pInputText
+        class="w-full text-sm px-3 py-2 bg-gray-100 cursor-not-allowed" />
+    </div>
+
+    <!-- Monto total -->
+    <div class="col-span-12">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Monto Total</label>
+      <input type="text" formControlName="amount" pInputText
+        class="w-full text-lg font-bold px-3 py-2 bg-gray-100 cursor-not-allowed text-green-700" />
+    </div>
+
+    <!-- Acciones -->
+    <div class="col-span-12">
+      <div class="mt-3 flex items-center justify-end gap-2">
+        <p-button label="Cancelar" severity="secondary" [size]="'small'" (click)="cancelar()"
+          [type]="'button'"></p-button>
+        <p-button label="Pagar Ticket" icon="pi pi-check" [size]="'small'" [type]="'submit'"
+          [disabled]="form.invalid || !selectedTicket"></p-button>
+      </div>
+    </div>
+  </form>
+</div>

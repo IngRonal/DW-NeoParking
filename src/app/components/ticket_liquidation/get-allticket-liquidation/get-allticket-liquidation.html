@@ -1,1 +1,55 @@
-<p>get-allticket-liquidation works!</p>
+<div class="card p-8">
+  <div class="flex justify-end mb-4">
+    <button
+      pButton
+      type="button"
+      class="p-button p-component bg-primary text-white"
+      icon="pi pi-plus"
+      label="Nuevo Ticket"
+      [routerLink]="['/ticket-liquidation/create']"
+    >
+    </button>
+  </div>
+
+  <!-- Contenedor con scroll -->
+  <div class="overflow-y-auto max-h-[400px]">
+    <p-table [value]="tickets" stripedRows [tableStyle]="{'min-width': '60rem'}">
+      <ng-template #header>
+        <tr>
+          <th>Id</th>
+          <th>ID Ticket</th>
+          <th>Placa</th>
+          <th>Vehículo</th>
+          <th>Tarifa</th>
+          <th>Monto</th>
+          <th>Hora Ticket</th>
+          <th>Hora Pago</th>
+          <th>Estado</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-ticket>
+        <tr>
+          <td>{{ ticket.id }}</td>
+          <td>{{ ticket.ticketId }}</td>
+          <td>{{ ticket.VehiclePlate }}</td>
+          <td>{{ ticket.vehicleType }}</td>
+          <td>{{ ticket.rate | currency:'COP':'symbol':'1.0-0' }}</td>
+          <td>{{ ticket.amount | currency:'COP':'symbol':'1.0-0' }}</td>
+          <td>{{ ticket.ticketTime | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ ticket.paymentTime ? (ticket.paymentTime | date:'dd/MM/yyyy HH:mm') : '---' }}</td>
+          <td>
+            <span
+              class="px-3 py-1 rounded-full text-xs font-semibold"
+              [ngClass]="{
+                'bg-green-100 text-green-800': ticket.status === 'Pago',
+                'bg-yellow-100 text-yellow-800': ticket.status === 'Pendiente'
+              }"
+            >
+              {{ ticket.status }}
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

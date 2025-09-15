@@ -1,1 +1,126 @@
-<p>createvehicle works!</p>
+<div
+  class="mx-auto w-full max-w-[880px] rounded-xl bg-white p-4 sm:p-6 shadow-sm mt-6"
+>
+  <h2 class="mb-4 text-lg font-semibold text-slate-800">Agregar Vehículo</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-12 gap-3">
+    <!-- PLACA -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="plate" class="block mb-1 text-sm font-medium text-slate-700"
+        >Placa</label
+      >
+      <input
+        id="plate"
+        type="text"
+        pInputText
+        formControlName="plate"
+        placeholder="Ej. ABC123"
+        class="w-full text-sm px-3 py-2"
+      />
+      <small
+        class="block mt-1 text-xs text-red-600"
+        *ngIf="form.get('plate')?.touched && form.get('plate')?.errors?.['required']"
+      >
+        La placa es obligatoria.
+      </small>
+    </div>
+
+    <!-- TIPO -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="type" class="block mb-1 text-sm font-medium text-slate-700"
+        >Tipo</label
+      >
+      <select
+        id="type"
+        formControlName="type"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2"
+      >
+        <option value="carro">Carro</option>
+        <option value="moto">Moto</option>
+        <option value="bici">Bici</option>
+      </select>
+      <small
+        class="block mt-1 text-xs text-red-600"
+        *ngIf="form.get('type')?.touched && form.get('type')?.errors?.['required']"
+      >
+        El tipo es obligatorio.
+      </small>
+    </div>
+
+    <!-- COLOR -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="color" class="block mb-1 text-sm font-medium text-slate-700"
+        >Color</label
+      >
+      <input
+        id="color"
+        type="text"
+        pInputText
+        formControlName="color"
+        placeholder="Ej. Rojo"
+        class="w-full text-sm px-3 py-2"
+      />
+      <small
+        class="block mt-1 text-xs text-red-600"
+        *ngIf="form.get('color')?.touched && form.get('color')?.errors?.['required']"
+      >
+        El color es obligatorio.
+      </small>
+    </div>
+
+    <!-- MARCA -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="brand" class="block mb-1 text-sm font-medium text-slate-700"
+        >Marca</label
+      >
+      <input
+        id="brand"
+        type="text"
+        pInputText
+        formControlName="brand"
+        placeholder="Ej. Toyota"
+        class="w-full text-sm px-3 py-2"
+      />
+      <small
+        class="block mt-1 text-xs text-red-600"
+        *ngIf="form.get('brand')?.touched && form.get('brand')?.errors?.['required']"
+      >
+        La marca es obligatoria.
+      </small>
+    </div>
+
+   <!-- CLIENTE (FK) -->
+<div class="col-span-12 md:col-span-6">
+  <label class="block mb-1 text-sm font-medium text-slate-700">Cliente</label>
+  <select formControlName="client_id"
+          class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2">
+    <option value="" disabled>Seleccione un cliente</option>
+    <option *ngFor="let c of clients" [value]="c.id">{{ c.name }}</option>
+  </select>
+  <small class="block mt-1 text-xs text-red-600"
+         *ngIf="f['client_id'].touched && f['client_id'].errors?.['required']">
+    El cliente es obligatorio.
+  </small>
+</div>
+
+    <!-- ACCIONES -->
+    <div class="col-span-12">
+      <div class="mt-3 flex items-center justify-end gap-2">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [size]="'small'"
+          (Click)="cancelar()"
+          type="button"
+        ></p-button>
+        <p-button
+          label="Guardar"
+          icon="pi pi-check"
+          [size]="'small'"
+          type="submit"
+          [disabled]="form.invalid"
+        ></p-button>
+      </div>
+    </div>
+  </form>
+</div>

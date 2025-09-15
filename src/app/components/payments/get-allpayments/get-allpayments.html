@@ -1,1 +1,39 @@
-<p>get-allpayments works!</p>
+<div class="card p-8">
+  <div class="flex justify-end mb-4">
+    <button
+      pButton
+      type="button"
+      class="p-button p-component bg-primary text-white"
+      icon="pi pi-plus"
+      label="Nuevo Pago"
+      [routerLink]="['/payments/create']"
+    >
+    </button>
+  </div>
+
+  <!-- Contenedor con scroll -->
+  <div class="overflow-y-auto max-h-[400px]">
+    <p-table [value]="payments" stripedRows [tableStyle]="{'min-width': '55rem'}">
+      <ng-template #header>
+        <tr>
+          <th>Id Pago</th>
+          <th>Cliente</th>
+          <th>Tipo Suscripción</th>
+          <th>Fecha Pago</th>
+          <th>Método de Pago</th>
+          <th>Monto</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-payment>
+        <tr>
+          <td>{{ payment.id_pago }}</td>
+          <td>{{ payment.clientName }}</td>
+          <td>{{ payment.typeSuscripcion }}</td>
+          <td>{{ payment.fecha_pago | date:'dd/MM/yyyy' }}</td>
+          <td>{{ payment.metodo_pago }}</td>
+          <td>{{ payment.monto | currency:'COP':'symbol':'1.0-0' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,1 +1,82 @@
-<p>createsubscription works!</p>
+<div class="mx-auto w-full max-w-[880px] rounded-xl bg-white p-4 sm:p-6 shadow-sm mt-6">
+  <h2 class="mb-4 text-lg font-semibold text-slate-800">Agregar Suscripción</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-12 gap-3">
+
+    <!-- TYPE -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="type" class="block mb-1 text-sm font-medium text-slate-700">Tipo</label>
+      <select id="type" formControlName="type"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2">
+        <option value="Mensual">Mensual</option>
+        <option value="Trimestral">Trimestral</option>
+        <option value="Anual">Anual</option>
+      </select>
+    </div>
+
+    <!-- PRICE (AUTOMÁTICO) -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="price" class="block mb-1 text-sm font-medium text-slate-700">Precio</label>
+      <input id="price" type="text" formControlName="price" readonly
+        class="w-full text-sm px-3 py-2 bg-gray-100 border border-gray-300 rounded" />
+    </div>
+
+    <!-- START DATE -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="startDate" class="block mb-1 text-sm font-medium text-slate-700">Fecha de Inicio</label>
+      <input id="startDate" type="date" pInputText formControlName="startDate"
+        class="w-full text-sm px-3 py-2" />
+    </div>
+
+    <!-- END DATE -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="endDate" class="block mb-1 text-sm font-medium text-slate-700">Fecha de Fin</label>
+      <input id="endDate" type="date" pInputText formControlName="endDate"
+        class="w-full text-sm px-3 py-2" />
+    </div>
+
+    <!-- STATUS -->
+    <div class="col-span-12 md:col-span-6">
+      <label for="status" class="block mb-1 text-sm font-medium text-slate-700">Estado</label>
+      <select id="status" formControlName="status"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2">
+        <option value="Activa">Activa</option>
+        <option value="Vencida">Vencida</option>
+      </select>
+    </div>
+
+    <!-- CLIENTE -->
+    <div class="col-span-12 md:col-span-6">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Cliente</label>
+      <select formControlName="clientId"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2"
+        (change)="onClientChange($event)">
+        <option value="" disabled>Seleccione un cliente</option>
+        <option *ngFor="let c of clients" [value]="c.id">{{ c.name }}</option>
+      </select>
+    </div>
+
+    <!-- VEHÍCULOS DEL CLIENTE SELECCIONADO -->
+    <div class="col-span-12 md:col-span-6" *ngIf="filteredVehicles.length">
+      <label class="block mb-1 text-sm font-medium text-slate-700">Vehículo</label>
+      <select formControlName="vehicleId"
+        class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2">
+        <option value="" disabled>Seleccione un vehículo</option>
+        <option *ngFor="let v of filteredVehicles" [value]="v.id">
+          {{ v.plate }} - Dueño: {{ getClientName(v.client_id) }}
+        </option>
+      </select>
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="col-span-12">
+      <div class="mt-3 flex items-center justify-end gap-2">
+        <p-button label="Cancelar" severity="secondary" [size]="'small'" (click)="cancelar()"
+          [type]="'button'"></p-button>
+        <p-button label="Guardar" icon="pi pi-check" [size]="'small'" [type]="'submit'"
+          [disabled]="form.invalid"></p-button>
+      </div>
+    </div>
+
+  </form>
+</div>

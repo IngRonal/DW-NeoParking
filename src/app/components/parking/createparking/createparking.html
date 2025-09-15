@@ -1,1 +1,64 @@
-<p>createparking works!</p>
+<div class="mx-auto w-full max-w-[880px] rounded-xl bg-white p-4 sm:p-6 shadow-sm mt-6">
+    <h2 class="mb-4 text-lg font-semibold text-slate-800">Agregar Parqueadero</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-12 gap-3">
+
+        <!-- NOMBRE -->
+        <div class="col-span-12 md:col-span-6">
+            <label for="name" class="block mb-1 text-sm font-medium text-slate-700">Nombre</label>
+            <input id="name" type="text" pInputText formControlName="name" placeholder="Ej. Parqueadero Central"
+                class="w-full text-sm px-3 py-2" />
+            <small class="block mt-1 text-xs text-red-600"
+                *ngIf="form.get('name')?.touched && form.get('name')?.errors?.['required']">
+                El nombre es obligatorio.
+            </small>
+        </div>
+
+        <!-- DIRECCIÓN -->
+        <div class="col-span-12 md:col-span-6">
+            <label for="address" class="block mb-1 text-sm font-medium text-slate-700">Dirección</label>
+            <input id="address" type="text" pInputText formControlName="address"
+                placeholder="Ej. Cra 10 #12-34, Barrio Centro" class="w-full text-sm px-3 py-2" />
+            <small class="block mt-1 text-xs text-red-600"
+                *ngIf="form.get('address')?.touched && form.get('address')?.errors?.['required']">
+                La dirección es obligatoria.
+            </small>
+        </div>
+
+        <!-- CAPACIDAD TOTAL -->
+        <div class="col-span-12 md:col-span-6">
+            <label for="totalCapacity" class="block mb-1 text-sm font-medium text-slate-700">Capacidad Total</label>
+            <input id="totalCapacity" type="number" pInputText formControlName="totalCapacity"
+                placeholder="Ej. 50" class="w-full text-sm px-3 py-2" />
+            <small class="block mt-1 text-xs text-red-600"
+                *ngIf="form.get('totalCapacity')?.touched && form.get('totalCapacity')?.errors?.['required']">
+                La capacidad total es obligatoria.
+            </small>
+        </div>
+
+        <!-- ESTADO -->
+        <div class="col-span-12 md:col-span-6">
+            <label for="status" class="block mb-1 text-sm font-medium text-slate-700">Estado</label>
+            <select id="status" formControlName="status"
+                class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2">
+                <option value="ACTIVE">Activo</option>
+                <option value="INACTIVE">Inactivo</option>
+            </select>
+            <small class="block mt-1 text-xs text-red-600"
+                *ngIf="form.get('status')?.touched && form.get('status')?.errors?.['required']">
+                El estado es obligatorio.
+            </small>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="col-span-12">
+            <div class="mt-3 flex items-center justify-end gap-2">
+                <p-button label="Cancelar" severity="secondary" [size]="'small'" (onClick)="cancelar()"
+                    type="button"></p-button>
+                <p-button label="Guardar" icon="pi pi-check" [size]="'small'" type="submit"
+                    [disabled]="form.invalid"></p-button>
+            </div>
+        </div>
+
+    </form>
+</div>

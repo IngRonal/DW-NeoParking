@@ -1,1 +1,40 @@
-<p>get-allincidents works!</p>
+<div class="card p-8">
+  <div class="flex justify-end mb-4">
+    <button
+      pButton
+      type="button"
+      class="p-button p-component bg-primary text-white"
+      icon="pi pi-plus"
+      label="Nueva Incidencia"
+      [routerLink]="['/incidents/create']"
+    >
+    </button>
+  </div>
+
+  <!-- Contenedor con scroll -->
+  <div class="overflow-y-auto max-h-[400px]">
+    <p-table [value]="incidencias" stripedRows [tableStyle]="{'min-width': '55rem'}">
+      <ng-template #header>
+        <tr>
+          <th>ID</th>
+          <th>Ticket/Plaza</th>
+          <th>Descripción</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-incidencia>
+        <tr>
+          <td>{{ incidencia.id_incidencia }}</td>
+          <td>
+            <span *ngIf="incidencia.id_ticket">Ticket #{{ incidencia.id_ticket }}</span>
+            <span *ngIf="incidencia.id_plaza">Plaza #{{ incidencia.id_plaza }}</span>
+          </td>
+          <td>{{ incidencia.descripcion }}</td>
+          <td>{{ incidencia.fecha | date:'dd/MM/yyyy' }}</td>
+          <td>{{ incidencia.estado }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

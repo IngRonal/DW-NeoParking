@@ -1,1 +1,55 @@
-<p>createrates works!</p>
+<div class="mx-auto w-full max-w-[880px] rounded-xl bg-white p-4 sm:p-6 shadow-sm mt-6">
+    <h2 class="mb-4 text-lg font-semibold text-slate-800">Agregar Tarifa</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="grid grid-cols-12 gap-3">
+
+        <!-- RANGO DE TIEMPO -->
+        <div class="col-span-12 md:col-span-6">
+            <label for="timeRange" class="block mb-1 text-sm font-medium text-slate-700">Rango de tiempo</label>
+            <select id="timeRange" formControlName="timeRange"
+                class="w-full p-inputtext rounded border border-gray-300 text-sm px-3 py-2">
+                <option value="Diurna">Diurna</option>
+                <option value="Nocturna">Nocturna</option>
+                <option value="Hora">Hora</option>
+                <option value="Día">Día</option>
+                <option value="Fin de semana">Fin de semana</option>
+            </select>
+            <small class="block mt-1 text-xs text-red-600"
+                *ngIf="form.get('timeRange')?.touched && form.get('timeRange')?.errors?.['required']">
+                El rango de tiempo es obligatorio.
+            </small>
+        </div>
+
+        <!-- PRECIO POR HORA -->
+        <div class="col-span-12 md:col-span-6">
+            <label for="pricePerHour" class="block mb-1 text-sm font-medium text-slate-700">Precio por hora</label>
+            <input id="pricePerHour" type="number" pInputText formControlName="pricePerHour"
+                placeholder="Ej. 5000" class="w-full text-sm px-3 py-2" />
+            <small class="block mt-1 text-xs text-red-600"
+                *ngIf="form.get('pricePerHour')?.touched && form.get('pricePerHour')?.errors?.['required']">
+                El precio por hora es obligatorio.
+            </small>
+        </div>
+
+        <!-- PRECIO POR DÍA -->
+        <div class="col-span-12 md:col-span-6">
+            <label for="pricePerDay" class="block mb-1 text-sm font-medium text-slate-700">Precio por día</label>
+            <input id="pricePerDay" type="number" pInputText formControlName="pricePerDay"
+                placeholder="Ej. 30000" class="w-full text-sm px-3 py-2" />
+            <small class="block mt-1 text-xs text-red-600"
+                *ngIf="form.get('pricePerDay')?.touched && form.get('pricePerDay')?.errors?.['required']">
+                El precio por día es obligatorio.
+            </small>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="col-span-12">
+            <div class="mt-3 flex items-center justify-end gap-2">
+                <p-button label="Cancelar" severity="secondary" [size]="'small'" (onClick)="cancelar()" type="button"></p-button>
+                <p-button label="Guardar" icon="pi pi-check" [size]="'small'" type="submit"
+                    [disabled]="form.invalid"></p-button>
+            </div>
+        </div>
+
+    </form>
+</div>

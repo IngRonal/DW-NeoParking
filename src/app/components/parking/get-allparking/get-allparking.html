@@ -1,1 +1,37 @@
-<p>get-allparking works!</p>
+<div class="card p-8">
+  <div class="flex justify-end mb-4">
+    <button
+      pButton
+      type="button"
+      class="p-button p-component bg-primary text-white"
+      icon="pi pi-plus"
+      label="Nuevo Parqueadero"
+      [routerLink]="['/parking/create']"
+    >
+    </button>
+  </div>
+
+  <div class="overflow-y-auto max-h-[400px]">
+    <p-table [value]="parkings" stripedRows [tableStyle]="{'min-width': '50rem'}">
+      <ng-template #header>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Dirección</th>
+          <th>Capacidad Total</th>
+          <th>Estado</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-parking>
+        <tr>
+          <td>{{ parking.id }}</td>
+          <td>{{ parking.name }}</td>
+          <td>{{ parking.address }}</td>
+          <td>{{ parking.totalCapacity }}</td>
+          <td>{{ parking.status }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
